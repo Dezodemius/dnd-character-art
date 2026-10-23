@@ -4,7 +4,18 @@
 
 Техническое имя скилла и репозитория — `dnd-character-art`; вызов `$dnd-character-art` сохраняется. Скилл создаёт иллюстрацию, а оформление игрового листа персонажа выполняется отдельно.
 
-[Скачать последний релиз ZIP](https://github.com/Dezodemius/dnd-character-art/releases/latest/download/dnd-character-art.zip) · [Все версии](https://github.com/Dezodemius/dnd-character-art/releases) · [Сборки](https://github.com/Dezodemius/dnd-character-art/actions/workflows/package.yml)
+## Установка
+
+Готовые файлы лежат в [релизах](https://github.com/Dezodemius/dnd-character-art/releases/latest).
+
+| Где пользуетесь | Как подключить |
+| --- | --- |
+| **claude.ai**, Claude Desktop | Скачать [`dnd-character-art.zip`](https://github.com/Dezodemius/dnd-character-art/releases/latest/download/dnd-character-art.zip) → Настройки → Возможности → Skills → загрузить. В Desktop можно открыть [`dnd-character-art.skill`](https://github.com/Dezodemius/dnd-character-art/releases/latest/download/dnd-character-art.skill) двойным кликом |
+| **Claude Code** | `/plugin marketplace add Dezodemius/agent-skills`, затем `/plugin install dnd-character-art@dezodemius-skills` |
+| **Codex, Gemini CLI, Cursor, GitHub Copilot, OpenCode** и другие агенты | `npx skills add Dezodemius/dnd-character-art` |
+| **ChatGPT, Gemini, DeepSeek, Qwen, Grok, Алиса, GigaChat** и другие чаты | Скачать [`dnd-character-art.prompt.md`](https://github.com/Dezodemius/dnd-character-art/releases/latest/download/dnd-character-art.prompt.md) и приложить в начале чата или вставить в инструкции проекта / GPT / Gem |
+
+Подробно по каждой платформе — в [каталоге](https://github.com/Dezodemius/agent-skills#установка).
 
 ## Использование в агентах
 
@@ -12,7 +23,7 @@
 2. Поместите её в каталог скиллов вашего агента либо подключите `SKILL.md` как инструкции вместе с `assets/`. Путь установки зависит от агента; поддержка одного формата импорта всеми продуктами не предполагается.
 3. Попросите применить `dnd-character-art` и опишите персонажа. У агента должен быть доступ к изображениям в `assets/` и инструменту генерации с визуальными референсами.
 
-Необязательный `agents/openai.yaml` содержит только метаданные интерфейса Codex. Основные инструкции от него не зависят. Для Codex папку можно поместить в `~/.codex/skills/` (Windows: `%USERPROFILE%\.codex\skills\`); настройки конкретной установки могут задавать другой каталог.
+Необязательный `agents/openai.yaml` содержит только метаданные интерфейса Codex. Основные инструкции от него не зависят.
 
 Пример запроса:
 
@@ -33,33 +44,28 @@
 ```text
 dnd-character-art/
   SKILL.md
-  README.md
-  VERSION
   agents/openai.yaml
-  assets/01-satyr.png
-  assets/02-dwarf.png
-  assets/03-rogue.png
-  assets/04-vampire-collage.png
-  assets/05-fantasy-collage.png
-  assets/06-island-collage.png
-  assets/07-heaven-collage.png
+  assets/01-satyr.png … assets/07-heaven-collage.png
+  LICENSE, NOTICE, VERSION, MANIFEST.json
 ```
 
-## Сборка и CD
+В однофайловой версии `.prompt.md` картинок нет: для сайтов без импорта скиллов приложите
+образцы из `assets/` отдельно (см. выше).
 
-GitHub Actions запускает проверку и упаковку на push в `main`, pull request и вручную через Run workflow. Готовый ZIP и `SHA256SUMS.txt` доступны как артефакт сборки в течение 30 дней. При push тега `vX.Y.Z.W` тот же workflow также публикует их в GitHub Releases; релизные файлы не зависят от срока хранения артефактов Actions.
+## Выпуск релиза
 
-Версия в `VERSION` имеет формат `0.0.0.0`: ровно четыре неотрицательных целых числа через точку, без ведущих нулей (кроме самого `0`), суффиксов и префикса `v`. Для нового релиза обновите `VERSION`, закоммитьте изменения, создайте совпадающий тег с префиксом `v`, например `v1.0.0.1`, и отправьте его на GitHub. При неверном формате версии или несовпадении версии и тега публикация завершится ошибкой. Повторный запуск для опубликованной версии проверяет идентичность файлов; при отличиях завершится ошибкой, сохранив существующий релиз. Повторная упаковка тех же файлов в одинаковой среде даёт тот же ZIP и SHA-256.
+Релиз собирается автоматически по тегу из четырёх чисел на коммите из `main`:
 
-Локальная сборка из корня репозитория, Python 3.11+ без сторонних пакетов:
-
-```console
-python scripts/package.py
-python -m unittest discover -s tests -v
+```bash
+git tag 1.0.0.0 && git push origin 1.0.0.0
 ```
 
-Результат: `dist/dnd-character-art.zip` и `dist/SHA256SUMS.txt`. Пакет собирается по явному списку, не включает `.git`, настройки CI и локальные файлы. Сборка проверяет обязательные файлы, UTF-8, CRLF, структуру и содержимое ZIP. Workflow использует закреплённые ревизии официальных Actions и выдаёт права публикации только релизному заданию. Публикация использует штатный `GITHUB_TOKEN`, дополнительные секреты не нужны.
+Общий CD и проверки живут в [Dezodemius/agent-skills](https://github.com/Dezodemius/agent-skills).
 
 ## Референсы
 
 Изображения предоставлены пользователем как образцы рисовки. Репозиторий не заявляет авторство или передачу прав на эти изображения; права принадлежат их правообладателям.
+
+## Лицензия
+
+Инструкции — Apache License 2.0 (см. [LICENSE](LICENSE)); изображения-образцы под эту лицензию не подпадают, см. [NOTICE](NOTICE).

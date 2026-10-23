@@ -1,0 +1,13 @@
+name: Release
+
+# Тег из четырёх чисел (1.0.0.0) -> общие проверки -> релиз в форматах .zip, .skill, .prompt.md.
+on:
+  push:
+    tags: ['[0-9]+.[0-9]+.[0-9]+.[0-9]+']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    uses: Dezodemius/agent-skills/.github/workflows/skill-release.yml@main

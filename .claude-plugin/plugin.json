@@ -1,0 +1,18 @@
+{
+  "name": "dnd-character-art",
+  "description": "Создаёт изображения персонажей в стиле ПЧК (Подземелья Чикен Карри) по описанию или референсу: выразительный контур, характерные лица, мягкие тени, размытый фон без надписей.",
+  "author": {
+    "name": "Egor Gladkov (Dezodemius)",
+    "url": "https://github.com/Dezodemius"
+  },
+  "homepage": "https://github.com/Dezodemius/dnd-character-art",
+  "repository": "https://github.com/Dezodemius/dnd-character-art",
+  "license": "Apache-2.0",
+  "keywords": [
+    "dnd",
+    "ttrpg",
+    "agent-skill",
+    "character-art",
+    "pchk"
+  ]
+}
