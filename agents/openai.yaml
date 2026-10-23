@@ -1,0 +1,4 @@
+interface:
+  display_name: "Персонажи D&D — рисованные портреты"
+  short_description: "Персонажи D&D в рисовке ваших референсов"
+  default_prompt: "Используй $dnd-character-art: нарисуй персонажа D&D по моему описанию в сохранённой рисовке."
