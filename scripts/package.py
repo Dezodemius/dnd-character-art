@@ -47,8 +47,8 @@ def read_payload(root: Path) -> dict[str, bytes]:
     if not skill.startswith(f"---\r\nname: {NAME}\r\n") or "\r\ndescription:" not in skill:
         raise ValueError("Invalid skill frontmatter")
     version = payload[f"{NAME}/VERSION"].decode("utf-8").strip()
-    if not re.fullmatch(r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)", version):
-        raise ValueError("VERSION must contain a numeric release version, e.g. 1.0.0")
+    if not re.fullmatch(r"(0|[1-9][0-9]*)(\.(0|[1-9][0-9]*)){3}", version):
+        raise ValueError("VERSION must contain four numeric components, e.g. 1.0.0.0")
     return payload
 
 

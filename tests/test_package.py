@@ -53,6 +53,19 @@ class PackageTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "PNG"):
             package.build(self.root, self.output)
 
+    def test_four_component_versions(self):
+        for version in ("0.0.0.0", "1.0.0.0", "12.34.56.789"):
+            with self.subTest(version=version):
+                (self.root / "VERSION").write_bytes((version + "\r\n").encode("ascii"))
+                package.read_payload(self.root)
+
+    def test_invalid_versions_fail(self):
+        for version in ("1.0.0", "1.0.0.0.0", "v1.0.0.0", "1.0.0.0-beta", "01.0.0.0", "1.0.-1.0", "1.0.0.x", "1.0.0.\u0661"):
+            with self.subTest(version=version):
+                (self.root / "VERSION").write_bytes((version + "\r\n").encode("utf-8"))
+                with self.assertRaisesRegex(ValueError, "four numeric components"):
+                    package.read_payload(self.root)
+
     def test_lf_conversion_fails(self):
         source = self.root / "SKILL.md"
         source.write_bytes(source.read_bytes().replace(b"\r\n", b"\n"))
